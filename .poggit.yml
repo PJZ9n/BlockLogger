@@ -1,0 +1,10 @@
+--- # Poggit-CI Manifest. Open the CI at https://poggit.pmmp.io/ci/PJZ9n/BlockLogger
+build-by-default: true
+branches:
+- master
+projects:
+  BlockLogger:
+    libs:
+      - src: poggit/libasynql/libasynql
+        version: 3.3.0
+...

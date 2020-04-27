@@ -41,7 +41,7 @@ class Main extends PluginBase
         //Init language
         foreach ($this->getResources() as $path => $resource) {
             if (strpos($path, "locale/") === 0 && $resource->getExtension() === "ini") {
-                $this->getLogger()->debug("Save languge file: " . $path);
+                $this->getLogger()->debug("Save language file: " . $path);
                 $this->saveResource($path, true);
             }
         }

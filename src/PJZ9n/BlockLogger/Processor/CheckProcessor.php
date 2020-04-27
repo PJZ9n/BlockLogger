@@ -37,8 +37,10 @@ class CheckProcessor
     
     public static function setEnable(BaseLang $lang, Player $player, bool $enabled, int $limit = CheckMode::DEFAULT_LIMIT): void
     {
-        CheckMode::getInstance()->setLimit($player->getName(), $limit);
-        $player->sendMessage(TextFormat::YELLOW . $lang->translateString("limit.set", [$limit]));
+        if ($enabled) {
+            CheckMode::getInstance()->setLimit($player->getName(), $limit);
+            $player->sendMessage(TextFormat::YELLOW . $lang->translateString("limit.set", [$limit]));
+        }
         CheckMode::getInstance()->setEnabled($player->getName(), $enabled);
         if ($enabled) {
             $player->sendMessage(TextFormat::GOLD . $lang->translateString("mode.on"));

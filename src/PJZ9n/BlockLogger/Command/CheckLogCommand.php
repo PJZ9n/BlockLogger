@@ -75,7 +75,7 @@ class CheckLogCommand extends PluginCommand implements CommandExecutor
         } else {
             return false;
         }
-        if (!isset($args[1])) {
+        if (!isset($args[1]) || !$enable) {
             CheckProcessor::setEnable($this->lang, $sender, $enable);
             return true;
         } else {
@@ -85,7 +85,7 @@ class CheckLogCommand extends PluginCommand implements CommandExecutor
                 ],
             ]);
             if ($limit !== false) {
-                CheckProcessor::setEnable($this->lang, $sender, $enable, $limit);
+                CheckProcessor::setEnable($this->lang, $sender, true, $limit);
                 return true;
             } else {
                 $sender->sendMessage(TextFormat::RED . $this->lang->translateString("command.checklog.error.args.limit"));

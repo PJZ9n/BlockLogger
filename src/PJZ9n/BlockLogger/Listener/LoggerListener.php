@@ -23,6 +23,7 @@ declare(strict_types=1);
 
 namespace PJZ9n\BlockLogger\Listener;
 
+use PJZ9n\BlockLogger\Processor\LoggerProcessor;
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\block\BlockPlaceEvent;
 use pocketmine\event\Listener;
@@ -47,19 +48,7 @@ class LoggerListener implements Listener
      */
     public function onBlockBreak(BlockBreakEvent $event): void
     {
-        $block = $event->getBlock();
-        $this->dataConnector->executeInsert("BlockLogger.blocklog.add", [
-            "action_type" => "Break",
-            "player_name" => $event->getPlayer()->getName(),
-            "x" => $block->getX(),
-            "y" => $block->getY(),
-            "z" => $block->getZ(),
-            "world" => $block->getLevel()->getName(),
-            "block_id" => $block->getId(),
-            "block_meta" => $block->getDamage(),
-            "block_name" => $block->getName(),
-            "block_itemid" => $block->getItemId(),
-        ]);
+        LoggerProcessor::addBreakLog($this->dataConnector, $event->getPlayer(), $event->getBlock());
     }
     
     /**
@@ -70,19 +59,7 @@ class LoggerListener implements Listener
      */
     public function onBlockPlace(BlockPlaceEvent $event): void
     {
-        $block = $event->getBlock();
-        $this->dataConnector->executeInsert("BlockLogger.blocklog.add", [
-            "action_type" => "Place",
-            "player_name" => $event->getPlayer()->getName(),
-            "x" => $block->getX(),
-            "y" => $block->getY(),
-            "z" => $block->getZ(),
-            "world" => $block->getLevel()->getName(),
-            "block_id" => $block->getId(),
-            "block_meta" => $block->getDamage(),
-            "block_name" => $block->getName(),
-            "block_itemid" => $block->getItemId(),
-        ]);
+        LoggerProcessor::addPlaceLog($this->dataConnector, $event->getPlayer(), $event->getBlock());
     }
     
 }

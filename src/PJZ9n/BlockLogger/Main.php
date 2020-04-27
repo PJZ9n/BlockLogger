@@ -96,7 +96,7 @@ class Main extends PluginBase
         //Register Permission
         PermissionManager::getInstance()->addPermission(new Permission(
             "blocklogger.command.checklog",
-            "Permission for /checklog command.",
+            $this->lang->translateString("permission.command.checklog.description"),
             Permission::DEFAULT_OP
         ));
         

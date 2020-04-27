@@ -23,15 +23,21 @@ declare(strict_types=1);
 
 namespace PJZ9n\BlockLogger;
 
+use PJZ9n\BlockLogger\Listener\LoggerListener;
 use PJZ9n\BlockLogger\Task\CheckUpdateTask;
 use pocketmine\lang\BaseLang;
 use pocketmine\plugin\PluginBase;
+use poggit\libasynql\DataConnector;
+use poggit\libasynql\libasynql;
 
 class Main extends PluginBase
 {
     
     /** @var BaseLang */
     private $lang;
+    
+    /** @var DataConnector */
+    private $dataConnector;
     
     public function onEnable(): void
     {
@@ -70,6 +76,28 @@ class Main extends PluginBase
         
         //Check update
         $this->getServer()->getAsyncPool()->submitTask(new CheckUpdateTask($this->lang, $this->getDescription()->getVersion(), $this->getLogger()));
+        
+        //Init database
+        $this->dataConnector = libasynql::create($this, $this->getConfig()->get("database"), [
+            "sqlite" => "sqls/sqlite.sql",
+        ]);
+        $this->dataConnector->executeGeneric("BlockLogger.blocklog.init", [], function () {
+            $this->getLogger()->debug("Success database initalized");
+        });
+        
+        //Register listener
+        $this->getServer()->getPluginManager()->registerEvents(new LoggerListener($this->dataConnector), $this);
+    }
+    
+    public function onDisable(): void
+    {
+        //Close database
+        if (isset($this->dataConnector)) {
+            $this->getLogger()->debug("Waiting database");
+            $this->dataConnector->waitAll();//Wait
+            $this->getLogger()->debug("Close database");
+            $this->dataConnector->close();
+        }
     }
     
 }

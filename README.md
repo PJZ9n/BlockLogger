@@ -10,6 +10,8 @@ Language:
 ## 日本語
 シンプルで高パフォーマンスなブロックロガープラグイン
 
+![スクリーンショット(日本語)](https://user-images.githubusercontent.com/38120936/80340256-45c3f500-889b-11ea-8227-cf98be86806b.png)
+
 ### 特徴
 - データベースは非同期で処理されます
 - 単純で分かりやすいシステム
@@ -77,6 +79,8 @@ database:
 
 ## English
 Simple and high performance block logger plugin
+
+![Screenshot(English)](https://user-images.githubusercontent.com/38120936/80340261-49577c00-889b-11ea-80ff-bf501a11d734.png)
 
 ### Features
 - Database is processed asynchronously

@@ -59,11 +59,14 @@ INSERT INTO blocklog (
             -- #:y int
             -- #:z int
             -- #:world string
+            -- #:limit int
 SELECT * FROM blocklog
 WHERE x = :x
 AND y = :y
 AND z = :z
-AND world = :world;
+AND world = :world
+ORDER BY created_at DESC
+LIMIT :limit;
             -- #}
         -- #}
     -- #}

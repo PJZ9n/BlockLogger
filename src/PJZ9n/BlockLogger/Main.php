@@ -23,9 +23,13 @@ declare(strict_types=1);
 
 namespace PJZ9n\BlockLogger;
 
+use PJZ9n\BlockLogger\Command\CheckLogCommand;
+use PJZ9n\BlockLogger\Listener\CheckModeListener;
 use PJZ9n\BlockLogger\Listener\LoggerListener;
 use PJZ9n\BlockLogger\Task\CheckUpdateTask;
 use pocketmine\lang\BaseLang;
+use pocketmine\permission\Permission;
+use pocketmine\permission\PermissionManager;
 use pocketmine\plugin\PluginBase;
 use poggit\libasynql\DataConnector;
 use poggit\libasynql\libasynql;
@@ -87,6 +91,17 @@ class Main extends PluginBase
         
         //Register listener
         $this->getServer()->getPluginManager()->registerEvents(new LoggerListener($this->dataConnector), $this);
+        $this->getServer()->getPluginManager()->registerEvents(new CheckModeListener($this->lang, $this->dataConnector), $this);
+        
+        //Register Permission
+        PermissionManager::getInstance()->addPermission(new Permission(
+            "blocklogger.command.checklog",
+            "Permission for /checklog command.",
+            Permission::DEFAULT_OP
+        ));
+        
+        //Register Command
+        $this->getServer()->getCommandMap()->register("BlockLogger", new CheckLogCommand("checklog", $this, $this->lang, $this->dataConnector));
     }
     
     public function onDisable(): void

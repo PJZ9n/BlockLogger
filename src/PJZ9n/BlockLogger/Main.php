@@ -36,7 +36,23 @@ class Main extends PluginBase
     public function onEnable(): void
     {
         //Init config
-        $this->saveDefaultConfig();
+        if ($this->saveDefaultConfig()) {
+            //First save
+            $lang = $this->getServer()->getLanguage()->getLang();
+            $this->getLogger()->debug("Replace language to " . $lang);
+            $this->getConfig()->set("language", $lang);//Replace language
+            $this->saveConfig();
+        }
+        
+        //Update config
+        $fp = $this->getResource("config.yml");
+        $configYaml = "";
+        while (!feof($fp)) {
+            $configYaml .= fgets($fp);
+        }
+        fclose($fp);
+        $this->getConfig()->setDefaults(yaml_parse($configYaml));//replace
+        $this->saveConfig();
         
         //Init language
         foreach ($this->getResources() as $path => $resource) {

@@ -45,7 +45,7 @@ Language:
 
 ### 権限
 
-| Permission | Description | Default |
+| 権限 | 説明 | デフォルト |
 | --- | --- | --- |
 | blocklogger.command.checklog | /checklog コマンド用の権限 | OP |
 

@@ -90,6 +90,9 @@ class CheckProcessor
                 $player->sendMessage(TextFormat::BLUE . $lang->translateString("log.itemid", [$blockItemid]));
                 $player->sendMessage(TextFormat::BLUE . $lang->translateString("log.date", [$createdAt->format("Y/m/d H:i:s")]));
             }
+            if (count($rows) < 1) {
+                $player->sendMessage(TextFormat::RED . $lang->translateString("log.notfound"));
+            }
         });
     }
     

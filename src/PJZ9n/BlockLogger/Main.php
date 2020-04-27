@@ -23,11 +23,34 @@ declare(strict_types=1);
 
 namespace PJZ9n\BlockLogger;
 
+use PJZ9n\BlockLogger\Task\CheckUpdateTask;
+use pocketmine\lang\BaseLang;
 use pocketmine\plugin\PluginBase;
 
 class Main extends PluginBase
 {
     
-    //
+    /** @var BaseLang */
+    private $lang;
+    
+    public function onEnable(): void
+    {
+        //Init config
+        $this->saveDefaultConfig();
+        
+        //Init language
+        foreach ($this->getResources() as $path => $resource) {
+            if (strpos($path, "locale/") === 0 && $resource->getExtension() === "ini") {
+                $this->getLogger()->debug("Save languge file: " . $path);
+                $this->saveResource($path, true);
+            }
+        }
+        $config = $this->getConfig();
+        $this->lang = new BaseLang((string)$config->get("language", "jpn"), $this->getDataFolder() . "locale/", "jpn");
+        $this->getLogger()->info($this->lang->translateString("language.selected", [$this->lang->getName()]));
+        
+        //Check update
+        $this->getServer()->getAsyncPool()->submitTask(new CheckUpdateTask($this->lang, $this->getDescription()->getVersion(), $this->getLogger()));
+    }
     
 }

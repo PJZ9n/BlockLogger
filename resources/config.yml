@@ -1,0 +1,8 @@
+language: jpn
+check-update: true
+language-update: true
+database:
+  type: sqlite
+  sqlite:
+    file: log.db
+  worker-limit: 1

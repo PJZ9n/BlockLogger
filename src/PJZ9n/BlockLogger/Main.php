@@ -51,7 +51,10 @@ class Main extends PluginBase
             $configYaml .= fgets($fp);
         }
         fclose($fp);
+        $oldCount = count($this->getConfig()->getAll(), COUNT_RECURSIVE);
         $this->getConfig()->setDefaults(yaml_parse($configYaml));//replace
+        $newCount = count($this->getConfig()->getAll(), COUNT_RECURSIVE);
+        $this->getLogger()->debug("Added " . ($newCount - $oldCount) . " variables");
         $this->saveConfig();
         
         //Init language

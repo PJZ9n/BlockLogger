@@ -65,7 +65,7 @@ WHERE x = :x
 AND y = :y
 AND z = :z
 AND world = :world
-ORDER BY created_at DESC
+ORDER BY id DESC
 LIMIT :limit;
             -- #}
         -- #}

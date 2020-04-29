@@ -21,11 +21,10 @@
 
 declare(strict_types=1);
 
-namespace PJZ9n\BlockLogger\Processor;
+namespace PJZ9n\BlockLogger\CheckMode;
 
 use DateTime;
 use DateTimeZone;
-use PJZ9n\BlockLogger\CheckMode\CheckMode;
 use pocketmine\lang\BaseLang;
 use pocketmine\level\Position;
 use pocketmine\Player;

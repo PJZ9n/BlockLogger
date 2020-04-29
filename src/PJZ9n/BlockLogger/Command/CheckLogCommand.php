@@ -24,7 +24,7 @@ declare(strict_types=1);
 namespace PJZ9n\BlockLogger\Command;
 
 use PJZ9n\BlockLogger\CheckMode\CheckMode;
-use PJZ9n\BlockLogger\Processor\CheckProcessor;
+use PJZ9n\BlockLogger\CheckMode\CheckProcessor;
 use pocketmine\command\Command;
 use pocketmine\command\CommandExecutor;
 use pocketmine\command\CommandSender;

@@ -21,10 +21,8 @@
 
 declare(strict_types=1);
 
-namespace PJZ9n\BlockLogger\Listener;
+namespace PJZ9n\BlockLogger\CheckMode;
 
-use PJZ9n\BlockLogger\CheckMode\CheckMode;
-use PJZ9n\BlockLogger\Processor\CheckProcessor;
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\block\BlockPlaceEvent;
 use pocketmine\event\Listener;

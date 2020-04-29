@@ -66,8 +66,7 @@ class CheckModeProcessor
                     $type = $row["action_type"];
                     if ($type === "Break") {
                         $type = $lang->translateString("log.break");
-                    }
-                    if ($type === "Place") {
+                    } else if ($type === "Place") {
                         $type = $lang->translateString("log.place");
                     }
                     $playerName = $row["player_name"];

@@ -21,14 +21,11 @@
 
 declare(strict_types=1);
 
-namespace PJZ9n\BlockLogger\Listener;
+namespace PJZ9n\BlockLogger\CheckMode;
 
-use PJZ9n\BlockLogger\CheckMode\CheckMode;
-use PJZ9n\BlockLogger\Processor\CheckProcessor;
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\block\BlockPlaceEvent;
 use pocketmine\event\Listener;
-use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\lang\BaseLang;
 use poggit\libasynql\DataConnector;
 
@@ -54,10 +51,10 @@ class CheckModeListener implements Listener
      */
     public function onBlockBreak(BlockBreakEvent $event): void
     {
-        if (!CheckMode::getInstance()->getEnabled($event->getPlayer()->getName())) {
+        if (!CheckMode::getEnabled($event->getPlayer()->getName())) {
             return;
         }
-        CheckProcessor::checkLogByPos($this->lang, $this->dataConnector, $event->getPlayer(), $event->getBlock());
+        CheckModeProcessor::checkLogByPos($this->lang, $this->dataConnector, $event->getPlayer(), $event->getBlock());
         $event->setCancelled();
     }
     
@@ -68,30 +65,11 @@ class CheckModeListener implements Listener
      */
     public function onBlockPlace(BlockPlaceEvent $event): void
     {
-        if (!CheckMode::getInstance()->getEnabled($event->getPlayer()->getName())) {
+        if (!CheckMode::getEnabled($event->getPlayer()->getName())) {
             return;
         }
-        CheckProcessor::checkLogByPos($this->lang, $this->dataConnector, $event->getPlayer(), $event->getBlock());
+        CheckModeProcessor::checkLogByPos($this->lang, $this->dataConnector, $event->getPlayer(), $event->getBlock());
         $event->setCancelled();
-    }
-    
-    /**
-     * @param PlayerInteractEvent $event
-     *
-     * @priority LOWEST
-     */
-    public function onPlayerInteract(PlayerInteractEvent $event): void
-    {
-        /*$action = $event->getAction();
-        if ($action !== PlayerInteractEvent::RIGHT_CLICK_BLOCK && $action !== PlayerInteractEvent::LEFT_CLICK_BLOCK) {
-            return;
-        }
-        if (!CheckMode::getInstance()->getEnabled($event->getPlayer()->getName())) {
-            return;
-        }
-        CheckProcessor::checkLogByPos($this->lang, $this->dataConnector, $event->getPlayer(), $event->getBlock());
-        $event->setCancelled();*/
-        //TODO uncomment this
     }
     
 }

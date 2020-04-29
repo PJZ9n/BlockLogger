@@ -24,7 +24,7 @@ declare(strict_types=1);
 namespace PJZ9n\BlockLogger;
 
 use PJZ9n\BlockLogger\Command\CheckLogCommand;
-use PJZ9n\BlockLogger\Listener\CheckModeListener;
+use PJZ9n\BlockLogger\CheckMode\CheckModeListener;
 use PJZ9n\BlockLogger\Listener\LoggerListener;
 use PJZ9n\BlockLogger\Task\CheckUpdateTask;
 use pocketmine\lang\BaseLang;

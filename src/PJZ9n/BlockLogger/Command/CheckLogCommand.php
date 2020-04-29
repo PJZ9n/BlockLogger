@@ -24,7 +24,7 @@ declare(strict_types=1);
 namespace PJZ9n\BlockLogger\Command;
 
 use PJZ9n\BlockLogger\CheckMode\CheckMode;
-use PJZ9n\BlockLogger\Processor\CheckProcessor;
+use PJZ9n\BlockLogger\CheckMode\CheckModeProcessor;
 use pocketmine\command\Command;
 use pocketmine\command\CommandExecutor;
 use pocketmine\command\CommandSender;
@@ -76,7 +76,7 @@ class CheckLogCommand extends PluginCommand implements CommandExecutor
             return false;
         }
         if (!isset($args[1]) || !$enable) {
-            CheckProcessor::setEnable($this->lang, $sender, $enable);
+            CheckModeProcessor::setEnable($this->lang, $sender, $enable);
             return true;
         } else {
             $limit = filter_var($args[1], FILTER_VALIDATE_INT, [
@@ -85,7 +85,7 @@ class CheckLogCommand extends PluginCommand implements CommandExecutor
                 ],
             ]);
             if ($limit !== false) {
-                CheckProcessor::setEnable($this->lang, $sender, true, $limit);
+                CheckModeProcessor::setEnable($this->lang, $sender, true, $limit);
                 return true;
             } else {
                 $sender->sendMessage(TextFormat::RED . $this->lang->translateString("command.checklog.error.args.limit"));

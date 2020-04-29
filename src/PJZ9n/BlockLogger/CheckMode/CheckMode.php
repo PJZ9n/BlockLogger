@@ -26,49 +26,38 @@ namespace PJZ9n\BlockLogger\CheckMode;
 class CheckMode
 {
     
-    /** @var CheckMode|null */
-    private static $instance;
-    
-    public static function getInstance(): CheckMode
-    {
-        if (!self::$instance instanceof CheckMode) {
-            self::$instance = new CheckMode();
-        }
-        return self::$instance;
-    }
-    
     /** @var int */
     public const DEFAULT_LIMIT = 1;
     
     /** @var bool[] */
-    private $enabled;
+    private static $enabled;
     
     /** @var int[] */
-    private $limit;
+    private static $limit;
     
-    public function getEnabled(string $name): bool
+    public static function getEnabled(string $name): bool
     {
-        return $this->enabled[$name] ?? false;
+        return self::$enabled[$name] ?? false;
     }
     
-    public function setEnabled(string $name, bool $enabled): void
+    public static function setEnabled(string $name, bool $enabled): void
     {
-        $this->enabled[$name] = $enabled;
+        self::$enabled[$name] = $enabled;
     }
     
-    public function getLimit(string $name): int
+    public static function getLimit(string $name): int
     {
-        return $this->limit[$name] ?? self::DEFAULT_LIMIT;
+        return self::$limit[$name] ?? self::DEFAULT_LIMIT;
     }
     
-    public function setLimit(string $name, int $limit): void
+    public static function setLimit(string $name, int $limit): void
     {
-        $this->limit[$name] = $limit;
+        self::$limit[$name] = $limit;
     }
     
-    protected function __construct()
+    private function __construct()
     {
-        //Sorry, Singleton...
+        //NOOP
     }
     
 }

@@ -28,7 +28,6 @@ use PJZ9n\BlockLogger\Processor\CheckProcessor;
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\block\BlockPlaceEvent;
 use pocketmine\event\Listener;
-use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\lang\BaseLang;
 use poggit\libasynql\DataConnector;
 
@@ -54,7 +53,7 @@ class CheckModeListener implements Listener
      */
     public function onBlockBreak(BlockBreakEvent $event): void
     {
-        if (!CheckMode::getInstance()->getEnabled($event->getPlayer()->getName())) {
+        if (!CheckMode::getEnabled($event->getPlayer()->getName())) {
             return;
         }
         CheckProcessor::checkLogByPos($this->lang, $this->dataConnector, $event->getPlayer(), $event->getBlock());
@@ -68,7 +67,7 @@ class CheckModeListener implements Listener
      */
     public function onBlockPlace(BlockPlaceEvent $event): void
     {
-        if (!CheckMode::getInstance()->getEnabled($event->getPlayer()->getName())) {
+        if (!CheckMode::getEnabled($event->getPlayer()->getName())) {
             return;
         }
         CheckProcessor::checkLogByPos($this->lang, $this->dataConnector, $event->getPlayer(), $event->getBlock());

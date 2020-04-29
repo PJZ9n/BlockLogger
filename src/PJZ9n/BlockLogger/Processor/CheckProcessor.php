@@ -38,10 +38,10 @@ class CheckProcessor
     public static function setEnable(BaseLang $lang, Player $player, bool $enabled, int $limit = CheckMode::DEFAULT_LIMIT): void
     {
         if ($enabled) {
-            CheckMode::getInstance()->setLimit($player->getName(), $limit);
+            CheckMode::setLimit($player->getName(), $limit);
             $player->sendMessage(TextFormat::YELLOW . $lang->translateString("limit.set", [$limit]));
         }
-        CheckMode::getInstance()->setEnabled($player->getName(), $enabled);
+        CheckMode::setEnabled($player->getName(), $enabled);
         if ($enabled) {
             $player->sendMessage(TextFormat::GOLD . $lang->translateString("mode.on"));
         } else {
@@ -56,7 +56,7 @@ class CheckProcessor
             "y" => $position->getY(),
             "z" => $position->getZ(),
             "world" => $position->getLevel()->getName(),
-            "limit" => CheckMode::getInstance()->getLimit($player->getName()),
+            "limit" => CheckMode::getLimit($player->getName()),
         ], function (array $rows) use ($lang, $player): void {
             $rows = array_reverse($rows);
             foreach ($rows as $row) {

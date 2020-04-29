@@ -75,23 +75,4 @@ class CheckModeListener implements Listener
         $event->setCancelled();
     }
     
-    /**
-     * @param PlayerInteractEvent $event
-     *
-     * @priority LOWEST
-     */
-    public function onPlayerInteract(PlayerInteractEvent $event): void
-    {
-        /*$action = $event->getAction();
-        if ($action !== PlayerInteractEvent::RIGHT_CLICK_BLOCK && $action !== PlayerInteractEvent::LEFT_CLICK_BLOCK) {
-            return;
-        }
-        if (!CheckMode::getInstance()->getEnabled($event->getPlayer()->getName())) {
-            return;
-        }
-        CheckProcessor::checkLogByPos($this->lang, $this->dataConnector, $event->getPlayer(), $event->getBlock());
-        $event->setCancelled();*/
-        //TODO uncomment this
-    }
-    
 }

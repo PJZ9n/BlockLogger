@@ -31,7 +31,7 @@ use pocketmine\Player;
 use pocketmine\utils\TextFormat;
 use poggit\libasynql\DataConnector;
 
-class CheckProcessor
+class CheckModeProcessor
 {
     
     public static function setEnable(BaseLang $lang, Player $player, bool $enabled, int $limit = CheckMode::DEFAULT_LIMIT): void

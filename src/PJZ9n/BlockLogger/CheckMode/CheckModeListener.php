@@ -54,7 +54,7 @@ class CheckModeListener implements Listener
         if (!CheckMode::getEnabled($event->getPlayer()->getName())) {
             return;
         }
-        CheckProcessor::checkLogByPos($this->lang, $this->dataConnector, $event->getPlayer(), $event->getBlock());
+        CheckModeProcessor::checkLogByPos($this->lang, $this->dataConnector, $event->getPlayer(), $event->getBlock());
         $event->setCancelled();
     }
     
@@ -68,7 +68,7 @@ class CheckModeListener implements Listener
         if (!CheckMode::getEnabled($event->getPlayer()->getName())) {
             return;
         }
-        CheckProcessor::checkLogByPos($this->lang, $this->dataConnector, $event->getPlayer(), $event->getBlock());
+        CheckModeProcessor::checkLogByPos($this->lang, $this->dataConnector, $event->getPlayer(), $event->getBlock());
         $event->setCancelled();
     }
     

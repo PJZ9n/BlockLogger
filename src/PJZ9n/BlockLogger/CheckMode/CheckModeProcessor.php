@@ -55,40 +55,43 @@ class CheckModeProcessor
             "world" => $position->getLevel()->getName(),
             "limit" => CheckMode::getLimit($player->getName()),
         ], function (array $rows) use ($lang, $player): void {
-            $rows = array_reverse($rows);
-            foreach ($rows as $row) {
-                $id = "#" . $row["id"];
-                $type = $row["action_type"];
-                if ($type === "Break") {
-                    $type = $lang->translateString("log.break");
-                }
-                if ($type === "Place") {
-                    $type = $lang->translateString("log.place");
-                }
-                $playerName = $row["player_name"];
-                $x = $row["x"];
-                $y = $row["y"];
-                $z = $row["z"];
-                $world = $row["world"];
-                $blockId = $row["block_id"];
-                $blockMeta = $row["block_meta"];
-                $blockName = $row["block_name"];
-                $blockItemid = $row["block_itemid"];
-                $createdAt = new DateTime($row["created_at"], new DateTimeZone("UTC"));
-                $createdAt = $createdAt->setTimezone(new DateTimeZone(date_default_timezone_get()));
-                
-                $player->sendMessage(TextFormat::GREEN . $lang->translateString("log.title", [$id]));
-                $player->sendMessage(TextFormat::BLUE . $lang->translateString("log.type", [$type]));
-                $player->sendMessage(TextFormat::BLUE . $lang->translateString("log.player", [$playerName]));
-                $player->sendMessage(TextFormat::BLUE . $lang->translateString("log.pos", [$x, $y, $z]));
-                $player->sendMessage(TextFormat::BLUE . $lang->translateString("log.world", [$world]));
-                $player->sendMessage(TextFormat::BLUE . $lang->translateString("log.block", [$blockId, $blockMeta]));
-                $player->sendMessage(TextFormat::BLUE . $lang->translateString("log.blockname", [$blockName]));
-                $player->sendMessage(TextFormat::BLUE . $lang->translateString("log.itemid", [$blockItemid]));
-                $player->sendMessage(TextFormat::BLUE . $lang->translateString("log.date", [$createdAt->format("Y/m/d H:i:s")]));
-            }
-            if (count($rows) < 1) {
+            if (count($rows) < 1) {//ログ無し
                 $player->sendMessage(TextFormat::RED . $lang->translateString("log.notfound"));
+            } else {
+                if (count($rows) > 1) {//ログ2つ以上
+                    $rows = array_reverse($rows);
+                }
+                foreach ($rows as $row) {
+                    $id = "#" . $row["id"];
+                    $type = $row["action_type"];
+                    if ($type === "Break") {
+                        $type = $lang->translateString("log.break");
+                    }
+                    if ($type === "Place") {
+                        $type = $lang->translateString("log.place");
+                    }
+                    $playerName = $row["player_name"];
+                    $x = $row["x"];
+                    $y = $row["y"];
+                    $z = $row["z"];
+                    $world = $row["world"];
+                    $blockId = $row["block_id"];
+                    $blockMeta = $row["block_meta"];
+                    $blockName = $row["block_name"];
+                    $blockItemid = $row["block_itemid"];
+                    $createdAt = new DateTime($row["created_at"], new DateTimeZone("UTC"));
+                    $createdAt = $createdAt->setTimezone(new DateTimeZone(date_default_timezone_get()));
+                    
+                    $player->sendMessage(TextFormat::GREEN . $lang->translateString("log.title", [$id]));
+                    $player->sendMessage(TextFormat::BLUE . $lang->translateString("log.type", [$type]));
+                    $player->sendMessage(TextFormat::BLUE . $lang->translateString("log.player", [$playerName]));
+                    $player->sendMessage(TextFormat::BLUE . $lang->translateString("log.pos", [$x, $y, $z]));
+                    $player->sendMessage(TextFormat::BLUE . $lang->translateString("log.world", [$world]));
+                    $player->sendMessage(TextFormat::BLUE . $lang->translateString("log.block", [$blockId, $blockMeta]));
+                    $player->sendMessage(TextFormat::BLUE . $lang->translateString("log.blockname", [$blockName]));
+                    $player->sendMessage(TextFormat::BLUE . $lang->translateString("log.itemid", [$blockItemid]));
+                    $player->sendMessage(TextFormat::BLUE . $lang->translateString("log.date", [$createdAt->format("Y/m/d H:i:s")]));
+                }
             }
         });
     }

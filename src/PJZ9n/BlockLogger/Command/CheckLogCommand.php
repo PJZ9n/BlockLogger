@@ -67,30 +67,26 @@ class CheckLogCommand extends PluginCommand implements CommandExecutor
         if (count($args) < 1) {
             return false;
         }
-        $enable = null;
         if ($args[0] === "on") {
-            $enable = true;
+            $limit = CheckMode::DEFAULT_LIMIT;
+            if (isset($args[1])) {
+                $limit = filter_var($args[1], FILTER_VALIDATE_INT, [
+                    "options" => [
+                        "min_range" => 0,
+                        "max_range" => PHP_INT_MAX,
+                    ],
+                ]);
+                if ($limit === false) {
+                    return false;
+                }
+            }
+            CheckModeProcessor::setEnable($this->lang, $sender, true, $limit);
+            return true;
         } else if ($args[0] === "off") {
-            $enable = false;
-        } else {
-            return false;
-        }
-        if (!isset($args[1]) || !$enable) {
-            CheckModeProcessor::setEnable($this->lang, $sender, $enable);
+            CheckModeProcessor::setEnable($this->lang, $sender, false);
             return true;
         } else {
-            $limit = filter_var($args[1], FILTER_VALIDATE_INT, [
-                "options" => [
-                    "min_range" => 1,
-                ],
-            ]);
-            if ($limit !== false) {
-                CheckModeProcessor::setEnable($this->lang, $sender, true, $limit);
-                return true;
-            } else {
-                $sender->sendMessage(TextFormat::RED . $this->lang->translateString("command.checklog.error.args.limit"));
-                return true;
-            }
+            return false;
         }
     }
     

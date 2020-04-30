@@ -23,12 +23,15 @@ declare(strict_types=1);
 
 namespace PJZ9n\BlockLogger\Command;
 
+use jojoe77777\FormAPI\CustomForm;
+use jojoe77777\FormAPI\SimpleForm;
 use PJZ9n\BlockLogger\CheckMode\CheckMode;
 use PJZ9n\BlockLogger\CheckMode\CheckModeProcessor;
 use pocketmine\command\Command;
 use pocketmine\command\CommandExecutor;
 use pocketmine\command\CommandSender;
 use pocketmine\command\PluginCommand;
+//use pocketmine\form\FormValidationException;
 use pocketmine\lang\BaseLang;
 use pocketmine\Player;
 use pocketmine\plugin\Plugin;
@@ -65,7 +68,57 @@ class CheckLogCommand extends PluginCommand implements CommandExecutor
             return true;
         }
         if (count($args) < 1) {
-            return false;
+            $form = new SimpleForm(function (Player $player, $data): void {
+                if ($data === null) {
+                    return;
+                }
+                $button = filter_var($data, FILTER_VALIDATE_INT, [
+                    "options" => [
+                        "min_range" => 0,
+                        "max_range" => 1,
+                    ],
+                ]);
+                if ($button === false) {
+                    return;//No console Spam TODO
+                    //throw new FormValidationException("Validate failed");
+                }
+                switch ($button) {
+                    case 0://有効
+                        $form = new CustomForm(function (Player $player, $data): void {
+                            if ($data === null) {
+                                return;
+                            }
+                            if (!isset($data[0])) {
+                                return;
+                                //throw new FormValidationException();
+                            }
+                            $limit = filter_var($data[0], FILTER_VALIDATE_INT, [
+                                "options" => [
+                                    "min_range" => 1,
+                                    "max_range" => PHP_INT_MAX,
+                                ],
+                            ]);
+                            if ($limit === false) {
+                                return;
+                                //throw new FormValidationException("Validate failed");
+                            }
+                            CheckModeProcessor::setEnable($this->lang, $player, true, $limit);
+                        });
+                        $form->setTitle($this->lang->translateString("mode.enable"));
+                        $form->addInput($this->lang->translateString("limit"), "", "1");
+                        $player->sendForm($form);
+                        break;
+                    case 1://無効
+                        CheckModeProcessor::setEnable($this->lang, $player, false);
+                        break;
+                }
+            });
+            $form->setTitle($this->lang->translateString("log.menu"));
+            $form->setContent($this->lang->translateString("log.select"));
+            $form->addButton($this->lang->translateString("mode.enable"));
+            $form->addButton($this->lang->translateString("mode.disable"));
+            $sender->sendForm($form);
+            return true;
         }
         if ($args[0] === "on") {
             $limit = CheckMode::DEFAULT_LIMIT;

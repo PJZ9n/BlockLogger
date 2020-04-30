@@ -21,7 +21,7 @@ Language:
 - [x] ブロックの破壊/設置ログを記録
 - [x] ブロックの破壊/設置ログを取得
 - [ ] MySQLを使用(現時点では、SQLiteのみ使用できます)
-- [ ] Form UIベースでの管理
+- [x] Form UIベースでの管理
 - [ ] 強化された絞り込み機能
 
 ### 使い方
@@ -91,7 +91,7 @@ Simple and high performance block logger plugin
 - [x] Record block break / place log
 - [x] Get block break / place log
 - [ ] Use MySQL (only SQLite is available at this time)
-- [ ] Form UI based management
+- [x] Form UI based management
 - [ ] Enhanced narrowing function
 
 ### How to use

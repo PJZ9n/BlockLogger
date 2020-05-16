@@ -68,10 +68,12 @@ class Main extends PluginBase
         $this->saveConfig();
         
         //Init language
-        foreach ($this->getResources() as $path => $resource) {
-            if (strpos($path, "locale/") === 0 && $resource->getExtension() === "ini") {
-                $this->getLogger()->debug("Save language file: " . $path);
-                $this->saveResource($path, true);
+        if ($this->getConfig()->get("language-update") === true) {
+            foreach ($this->getResources() as $path => $resource) {
+                if (strpos($path, "locale/") === 0 && $resource->getExtension() === "ini") {
+                    $this->getLogger()->debug("Save language file: " . $path);
+                    $this->saveResource($path, true);
+                }
             }
         }
         $config = $this->getConfig();
@@ -79,7 +81,9 @@ class Main extends PluginBase
         $this->getLogger()->info($this->lang->translateString("language.selected", [$this->lang->getName()]));
         
         //Check update
-        $this->getServer()->getAsyncPool()->submitTask(new CheckUpdateTask($this->lang, $this->getDescription()->getVersion(), $this->getLogger()));
+        if ($this->getConfig()->get("check-update") === true) {
+            $this->getServer()->getAsyncPool()->submitTask(new CheckUpdateTask($this->lang, $this->getDescription()->getVersion(), $this->getLogger()));
+        }
         
         //Init database
         $this->dataConnector = libasynql::create($this, $this->getConfig()->get("database"), [
